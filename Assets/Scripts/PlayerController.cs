@@ -16,16 +16,39 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // Handle movement input
-        float forwardInput = Input.GetAxis("Vertical");
-        float sidewaysInput = Input.GetAxis("Horizontal");
-        playerRB.AddRelativeForce(Vector3.forward * forwardInput * speed);
-        playerRB.AddRelativeForce(Vector3.right * sidewaysInput * speed);
+        MovePlayer();
+     
+
 
         // Smoothly rotate the player towards the mouse position
         SmoothRotateTowardsMouse();
     }
+    // Handle movement input
+    void MovePlayer()
+    {
+        float forwardInput = Input.GetAxis("Vertical");
+        float sidewaysInput = Input.GetAxis("Horizontal");
 
+        // Combine input into a single vector
+        Vector3 movement = new Vector3(sidewaysInput, 0, forwardInput).normalized;
+
+        // Apply force based on the normalized movement vector
+        if (movement != Vector3.zero)
+        {
+            playerRB.AddRelativeForce(movement * speed);
+        }
+        else
+        {
+            playerRB.velocity = Vector3.zero;
+        }
+       
+
+        // Cap the player's velocity to max speed
+        if (playerRB.velocity.magnitude > speed)
+        {
+            playerRB.velocity = playerRB.velocity.normalized * speed;
+        }
+    }
     void SmoothRotateTowardsMouse()
     {
         Vector3 point = cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1));
