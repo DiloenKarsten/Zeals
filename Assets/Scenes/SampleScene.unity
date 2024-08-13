@@ -639,7 +639,7 @@ GameObject:
   - component: {fileID: 1591820975}
   - component: {fileID: 1591820974}
   - component: {fileID: 1591820973}
-  - component: {fileID: 1591820972}
+  - component: {fileID: 1591820977}
   - component: {fileID: 1591820976}
   m_Layer: 0
   m_Name: Gun
@@ -663,20 +663,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1178023186}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1591820972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591820970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ddcdbe492f4264428fb962c6d8a1d85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laser: {fileID: 1591820976}
-  laserRange: 20
 --- !u!65 &1591820973
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -761,6 +747,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 1880673174}
+--- !u!114 &1591820977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591820970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541b0eabdf7f69d428afcad7a1667de7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowButtonHold: 0
+  range: 20
+  reloadTime: 5
+  timeBetweenShooting: 1
+  timeBetweenShots: 0
+  magazineSize: 5
+  bulletsPerTap: 1
+  bulletsLeft: 0
+  bulletsShot: 0
+  isShooting: 0
+  isReadyToShoot: 0
+  isReloading: 0
+  attackPoint: {fileID: 0}
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 0
+  laser: {fileID: 1591820976}
+  laserRange: 20
 --- !u!1 &1880673173
 GameObject:
   m_ObjectHideFlags: 0

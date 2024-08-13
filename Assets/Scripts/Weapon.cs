@@ -2,37 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+namespace Weapons
 {
-    [Header("Laser Settings")]
-    public Laser laser;
-    [SerializeField] private float laserRange;
-
-    private void Start()
+    public abstract class Weapon : MonoBehaviour
     {
-        if (laser != null)
-        {
-            laser.SetUpLaser(laserRange, transform);
-        }
-    }
+        // Common properties
+        public float damage;
+        public float Range;
+        public float ReloadTime;
+        public int AmmoCount;
+        public float ShootingDelay;
+        public Transform LaserOrigin;
+        public bool IsShooting;
+        public bool IsReloading;
+        public bool IsAutomatic;
 
-    private void Update()
-    {
-        if (laser != null)
+        // Abstract methods
+
+
+        // Default behavior
+        protected void ShootWeapon(RaycastHit hit)
         {
-            var hit = laser.RenderLaser();
-            if (Input.GetMouseButtonDown(0))
+            if (hit.collider != null && hit.collider.CompareTag("Enemy"))
             {
-                FireGun(hit);
+                Destroy(hit.collider.gameObject);
             }
         }
-    }
-
-    private void FireGun(RaycastHit hit)
-    {
-        if (hit.collider != null && hit.collider.CompareTag("Enemy"))
+        protected void UpdateReloadState()
         {
-            Destroy(hit.collider.gameObject);
+            // Shared reload logic
         }
     }
+    
 }
