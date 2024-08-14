@@ -15,7 +15,6 @@ public class Gun : MonoBehaviour
     public bool isReadyToShoot, isReloading;
 
     [Header("References")]
-    public Transform attackPoint;
     public LayerMask whatIsEnemy;
 
     [Header("Laser Settings")]

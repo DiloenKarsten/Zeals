@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         Vector3 lookDirection = (player.transform.position - transform.position).normalized;
+        transform.rotation = Quaternion.LookRotation(lookDirection);
        if (enemyRB.velocity.magnitude < speed )
         {
             enemyRB.AddForce(lookDirection * speed);

@@ -284,4 +284,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1cb087a6f2bf5e48bfea8b8f295a0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 1161728819209862560, guid: a9bfb1520b05b45408e694e4acdcfb24, type: 3}
+  lineRenderer: {fileID: 4273920644539961429}
