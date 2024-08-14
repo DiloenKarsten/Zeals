@@ -1,14 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-
 public class Gun : MonoBehaviour
 {
     [Header("Gun Specifications")]
-    [SerializeField] private bool allowButtonHold;
+    public bool allowButtonHold;
     [SerializeField] private float range, reloadTime, timeBetweenShooting, timeBetweenShots;
-    [SerializeField] private int magazineSize, bulletsPerTap, ammoCount;
-  
+    [SerializeField] private int magazineSize, bulletsPerTap;
+    public int ammoCount;
 
     [Header("Weapon States")]
     public bool isShooting;
@@ -19,7 +18,6 @@ public class Gun : MonoBehaviour
 
     [Header("Laser Settings")]
     public Laser laser;
-    
 
     private void Start()
     {
@@ -34,28 +32,9 @@ public class Gun : MonoBehaviour
     private void Update()
     {
         laser.RenderLaser();
-        HandleInput();
-
-        if (isShooting && isReadyToShoot && !isReloading && ammoCount > 0)
-        {
-            StartCoroutine(HandleShooting());
-        }
-
-        if (ammoCount <= 0 && !isReloading)
-        {
-            ReloadWeapon();
-        }
     }
 
-    private void HandleInput()
-    {
-        if (allowButtonHold)
-            isShooting = Input.GetKey(KeyCode.Mouse0);
-        else
-            isShooting = Input.GetKeyDown(KeyCode.Mouse0);
-    }
-
-    private IEnumerator HandleShooting()
+    public IEnumerator HandleShooting()
     {
         isReadyToShoot = false;
 
@@ -96,7 +75,7 @@ public class Gun : MonoBehaviour
         isReadyToShoot = true;
     }
 
-    private void ReloadWeapon()
+    public void ReloadWeapon()
     {
         isReloading = true;
         Invoke(nameof(Reload), reloadTime);
