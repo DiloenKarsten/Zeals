@@ -763,11 +763,10 @@ MonoBehaviour:
   range: 20
   reloadTime: 5
   timeBetweenShooting: 1
-  timeBetweenShots: 0
-  magazineSize: 5
-  bulletsPerTap: 1
-  bulletsLeft: 0
-  bulletsShot: 0
+  timeBetweenShots: 2
+  magazineSize: 20
+  bulletsPerTap: 10
+  ammoCount: 0
   isShooting: 0
   isReadyToShoot: 0
   isReloading: 0

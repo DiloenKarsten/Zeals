@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Weapons;
 
@@ -7,21 +6,17 @@ public class Gun : MonoBehaviour
 {
     [Header("Gun Specifications")]
     [SerializeField] private bool allowButtonHold;
-    [SerializeField] private float  range, reloadTime, timeBetweenShooting, timeBetweenShots;
+    [SerializeField] private float range, reloadTime, timeBetweenShooting, timeBetweenShots;
     [SerializeField] private int magazineSize, bulletsPerTap;
-    [SerializeField] private int bulletsLeft, bulletsShot;
-
+    [SerializeField] private int ammoCount;
 
     [Header("Weapon States")]
-    //bools 
     public bool isShooting;
-    public bool isReadyToShoot , isReloading;
+    public bool isReadyToShoot, isReloading;
 
-    //Reference
     [Header("References")]
-   public Transform attackPoint;
-   public LayerMask whatIsEnemy;
-
+    public Transform attackPoint;
+    public LayerMask whatIsEnemy;
 
     [Header("Laser Settings")]
     public Laser laser;
@@ -29,6 +24,7 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
+        ammoCount = magazineSize;
         isReadyToShoot = true;
         if (laser != null)
         {
@@ -38,19 +34,53 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
+        RaycastHit hit = laser.RenderLaser();
+        HandleInput();
+
+        if (isShooting && isReadyToShoot && !isReloading && ammoCount > 0)
+        {
+            StartCoroutine(HandleShooting());
+        }
+
+        if (ammoCount <= 0 && !isReloading)
+        {
+            ReloadWeapon();
+        }
+    }
+
+    private void HandleInput()
+    {
+        if (allowButtonHold)
+            isShooting = Input.GetKey(KeyCode.Mouse0);
+        else
+            isShooting = Input.GetKeyDown(KeyCode.Mouse0);
+    }
+
+    private IEnumerator HandleShooting()
+    {
+        isReadyToShoot = false;
+
+        for (int i = 0; i < bulletsPerTap; i++)
+        {
+            if (ammoCount <= 0) break;
+
+            HandleSingleShot();
+
+            yield return new WaitForSeconds(timeBetweenShots);
+        }
+
+        yield return new WaitForSeconds(timeBetweenShooting);
+        ResetShot();
+    }
+
+    private void HandleSingleShot()
+    {
+        ammoCount--;
+
         if (laser != null)
         {
-            var hit = laser.RenderLaser();
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (isReadyToShoot)
-                {
-                    isReadyToShoot = false;
-                    ShootWeapon(hit);
-                    Invoke("ResetShot", timeBetweenShooting);
-                }
-                
-            }
+            RaycastHit hit = laser.RenderLaser();
+            ShootWeapon(hit);
         }
     }
 
@@ -72,9 +102,11 @@ public class Gun : MonoBehaviour
         isReloading = true;
         Invoke("Reload", reloadTime);
     }
+
     private void Reload()
     {
-        bulletsLeft = magazineSize;
+        ammoCount = magazineSize;
         isReloading = false;
+        ResetShot();
     }
 }

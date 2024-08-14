@@ -6,31 +6,46 @@ namespace Weapons
 {
     public abstract class Weapon : MonoBehaviour
     {
-        // Common properties
-        public float damage;
-        public float Range;
-        public float ReloadTime;
-        public int AmmoCount;
-        public float ShootingDelay;
-        public Transform LaserOrigin;
-        public bool IsShooting;
-        public bool IsReloading;
-        public bool IsAutomatic;
+        [Header("Gun Specifications")]
+        [SerializeField] private bool allowButtonHold;
+        [SerializeField] private float range, reloadTime, timeBetweenShooting, timeBetweenShots;
+        [SerializeField] private int magazineSize, bulletsPerTap;
+        [SerializeField] private int bulletsLeft, bulletsShot;
 
-        // Abstract methods
+
+        [Header("Weapon States")]
+        //bools 
+        public bool isShooting;
+        public bool isReadyToShoot, isReloading;
+
+        //Reference
+        [Header("References")]
+        public Transform attackPoint;
+        public LayerMask whatIsEnemy;
+
+
+        [Header("Laser Settings")]
+        public Laser laser;
+        [SerializeField] private float laserRange;
 
 
         // Default behavior
-        protected void ShootWeapon(RaycastHit hit)
+        protected virtual void ShootWeapon(RaycastHit hit)
         {
             if (hit.collider != null && hit.collider.CompareTag("Enemy"))
             {
                 Destroy(hit.collider.gameObject);
             }
         }
-        protected void UpdateReloadState()
+        protected void ReloadWeapon()
         {
-            // Shared reload logic
+            isReloading = true;
+            Invoke("Reload", reloadTime);
+        }
+       protected void Reload()
+        {
+            bulletsLeft = magazineSize;
+            isReloading = false;
         }
     }
     
