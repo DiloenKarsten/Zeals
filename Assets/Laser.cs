@@ -6,6 +6,11 @@ public class Laser : MonoBehaviour
     private float laserRange;
     private Transform origin;
 
+    private void Awake()
+    {
+        
+        lineRenderer.enabled = true;
+    }
     public void SetUpLaser(float laserRange, Transform origin)
     {
         this.laserRange = laserRange;
