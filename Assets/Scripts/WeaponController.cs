@@ -4,12 +4,16 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     public Transform primaryWeapon;
+    public Transform secondaryWeapon;
     private Gun currentWeapon;
+    private Gun spareWeapon;
+    private bool isBuying;
 
     // Start is called before the first frame update
     void Awake()
     {
         EquipWeapon("Pistol");
+       
     }
 
     // Update is called once per frame
@@ -34,30 +38,77 @@ public class WeaponController : MonoBehaviour
             currentWeapon.isShooting = Input.GetKey(KeyCode.Mouse0);
         else
             currentWeapon.isShooting = Input.GetKeyDown(KeyCode.Mouse0);
+        
+        if (Input.GetKeyDown(KeyCode.Q))
+            SwapWeapon();
+        if (Input.GetKeyDown(KeyCode.R))
+            currentWeapon.ReloadWeapon();
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            isBuying = true;
+        }
+       
+       
     }
 
     public void EquipWeapon(string weaponName)
     {
-        if (currentWeapon != null)
-        {
-            Destroy(currentWeapon.gameObject);
-        }
-
         GameObject weaponPrefab = Resources.Load<GameObject>($"Prefabs/Weapons/{weaponName}");
         Debug.Log($"Loading weapon from path: Prefabs/Weapons/{weaponName}");
+
+        if (currentWeapon == null)
+        {
+            currentWeapon = weaponSlot(weaponPrefab, primaryWeapon);
+        }
+        else if (spareWeapon == null)
+        {
+            spareWeapon = weaponSlot(weaponPrefab, secondaryWeapon);
+        }
+    }
+
+    public Gun weaponSlot(GameObject weaponPrefab, Transform pos)
+    {
+        Gun gunInstance = null;
         if (weaponPrefab != null)
         {
-            GameObject weaponInstance = Instantiate(weaponPrefab, primaryWeapon.position, primaryWeapon.rotation, primaryWeapon);
-            currentWeapon = weaponInstance.GetComponent<Gun>();
-            if (currentWeapon == null)
+            GameObject weaponInstance = Instantiate(weaponPrefab, pos.position, pos.rotation, pos);
+            gunInstance = weaponInstance.GetComponent<Gun>();
+            if (gunInstance == null)
             {
                 Debug.LogError("No Gun component found on the weapon prefab.");
             }
         }
-        else
-        {
-            Debug.LogError($"Weapon prefab not found: {weaponName}");
-        }
-
+        return gunInstance;
     }
+    public void SwapWeapon()
+    {
+        if (currentWeapon != null && spareWeapon != null)
+        {
+            // Swap the Gun references
+            Gun tempGun = currentWeapon;
+            currentWeapon = spareWeapon;
+            spareWeapon = tempGun;
+
+            // Re-parent the weapons to the correct slots
+            currentWeapon.transform.SetParent(primaryWeapon);
+            spareWeapon.transform.SetParent(secondaryWeapon);
+
+            // Reset their local position and rotation to match the slot
+            currentWeapon.transform.localPosition = Vector3.zero;
+            currentWeapon.transform.localRotation = Quaternion.identity;
+            spareWeapon.transform.localPosition = Vector3.zero;
+            spareWeapon.transform.localRotation = Quaternion.identity;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        Debug.Log(other.name);
+        if (other.CompareTag("Store") && isBuying)
+        {
+            EquipWeapon(other.name);   
+            isBuying = false;
+        }
+    }
+
 }
