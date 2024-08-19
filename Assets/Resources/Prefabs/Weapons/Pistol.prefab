@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allowButtonHold: 0
+  damage: 10
   range: 20
   reloadTime: 5
   timeBetweenShooting: 0.2
@@ -131,7 +132,6 @@ MonoBehaviour:
   isShooting: 0
   isReadyToShoot: 0
   isReloading: 0
-  attackPoint: {fileID: 6615060802459783096}
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 0

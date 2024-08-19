@@ -5,7 +5,7 @@ public class WeaponController : MonoBehaviour
 {
     public Transform primaryWeapon;
     public Transform secondaryWeapon;
-    public int Currency;
+    public float Currency;
     private Gun currentWeapon;
     private Gun spareWeapon;
     private bool isBuying;

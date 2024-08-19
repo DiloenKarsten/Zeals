@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public float health;
     private Rigidbody enemyRB;
     private GameObject player;
+    
     [SerializeField] private float speed;
    
 
@@ -25,7 +27,19 @@ public class Enemy : MonoBehaviour
         {
             enemyRB.AddForce(lookDirection * speed);
         }
-        
-        // player.transform.position = transform.position;
+
+        if (health <= 0)
+            Destroy(gameObject);
+
+    }
+    public float takeDamage(float damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+            return 60;
+        else
+            return 10;
+
     }
 }

@@ -5,7 +5,7 @@ public class Gun : MonoBehaviour
 {
     [Header("Gun Specifications")]
     public bool allowButtonHold;
-    [SerializeField] private float range, reloadTime, timeBetweenShooting, timeBetweenShots;
+    [SerializeField] private float damage, range, reloadTime, timeBetweenShooting, timeBetweenShots;
     [SerializeField] private int magazineSize, bulletsPerTap;
     public int ammoCount;
 
@@ -19,8 +19,10 @@ public class Gun : MonoBehaviour
     [Header("Laser Settings")]
     public Laser laser;
 
+    private WeaponController weaponController;
     private void Start()
     {
+        weaponController = GetComponentInParent<WeaponController>();
         ammoCount = magazineSize;
         isReadyToShoot = true;
         if (laser != null)
@@ -66,7 +68,10 @@ public class Gun : MonoBehaviour
     {
         if (hit.collider != null && hit.collider.CompareTag("Enemy"))
         {
-            Destroy(hit.collider.gameObject);
+            Enemy zeal = hit.collider.GetComponent<Enemy>();
+            weaponController.Currency += zeal.takeDamage(damage);
+
+
         }
     }
 
