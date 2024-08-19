@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class WeaponStore : MonoBehaviour
 {
-    public GameObject storePrefab;
+    
+    public int price;
+
     // Start is called before the first frame update
     void Start()
     {

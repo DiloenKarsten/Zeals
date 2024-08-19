@@ -5,6 +5,7 @@ public class WeaponController : MonoBehaviour
 {
     public Transform primaryWeapon;
     public Transform secondaryWeapon;
+    public int Currency;
     private Gun currentWeapon;
     private Gun spareWeapon;
     private bool isBuying;
@@ -45,10 +46,16 @@ public class WeaponController : MonoBehaviour
             currentWeapon.ReloadWeapon();
         if (Input.GetKeyDown(KeyCode.E))
         {
-            isBuying = true;
+            StartCoroutine(BuyDelay());
         }
        
        
+    }
+    IEnumerator BuyDelay()
+    {
+        isBuying = true;
+        yield return new WaitForSeconds(0.2f);
+        isBuying = false;
     }
 
     public void EquipWeapon(string weaponName)
@@ -106,8 +113,24 @@ public class WeaponController : MonoBehaviour
         Debug.Log(other.name);
         if (other.CompareTag("Store") && isBuying)
         {
-            EquipWeapon(other.name);   
-            isBuying = false;
+            WeaponStore store = other.GetComponent<WeaponStore>();
+            if (store == null)
+            {
+                Debug.Log("No Store component found on the object.");
+            }
+            else
+            {
+                if (Currency >= store.price)
+                {
+                    Currency -= store.price;
+                    EquipWeapon(other.name); // Assuming you moved the EquipWeapon to WeaponStore
+                    isBuying = false;
+                }
+                else
+                {
+                    Debug.Log("Not enough currency to buy this weapon.");
+                }
+            }
         }
     }
 
