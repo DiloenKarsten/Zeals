@@ -33,7 +33,12 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
-        laser.RenderLaser();
+        if (this == weaponController.CurrentWeapon) 
+        {
+            laser.RenderLaser();
+        }
+        
+         
     }
 
     public IEnumerator HandleShooting()

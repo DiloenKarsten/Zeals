@@ -7,6 +7,12 @@ public class WeaponController : MonoBehaviour
     public Transform secondaryWeapon;
     public float Currency;
     private Gun currentWeapon;
+    public Gun CurrentWeapon
+    {
+        get { return currentWeapon; }
+        private set { currentWeapon = value; }
+    }
+
     private Gun spareWeapon;
     private bool isBuying;
 
