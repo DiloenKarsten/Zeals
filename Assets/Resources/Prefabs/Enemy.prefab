@@ -147,4 +147,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 60
+  blood: {fileID: 1010360105856102393, guid: 2679561c75cb15c499bc2ffc27061314, type: 3}
   speed: 2

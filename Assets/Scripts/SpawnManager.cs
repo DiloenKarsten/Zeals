@@ -6,6 +6,7 @@ public class SpawnManager : MonoBehaviour
 {
     public List<Enemy> enemyPrefabs;
     public GameObject gameArea;
+    public int intendedEnemies;
     private int enemyCount;
     private float spawnRange;
     // Start is called before the first frame update
@@ -18,7 +19,7 @@ public class SpawnManager : MonoBehaviour
     void Update()
     {
         enemyCount = FindObjectsOfType<Enemy>().Length;
-        if (enemyCount<3)
+        if (enemyCount<intendedEnemies)
         {
             Instantiate(enemyPrefabs[0], GenerateSpawnPoint(), enemyPrefabs[0].transform.rotation);
         }

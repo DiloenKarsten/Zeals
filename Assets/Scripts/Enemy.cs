@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     public float health;
     private Rigidbody enemyRB;
     private GameObject player;
+    public ParticleSystem blood;
     
     [SerializeField] private float speed;
    
@@ -42,4 +43,12 @@ public class Enemy : MonoBehaviour
             return 10;
 
     }
+    /*
+    public void BloodEffect()
+    {
+
+        Instantiate(blood,new Vector3(transform.position.x, 2, transform.position.z),transform.rotation);
+      
+    }
+    */
 }

@@ -20,6 +20,8 @@ public class Gun : MonoBehaviour
     public Laser laser;
 
     private WeaponController weaponController;
+
+
     private void Start()
     {
         weaponController = GetComponentInParent<WeaponController>();
@@ -75,6 +77,7 @@ public class Gun : MonoBehaviour
         {
             Enemy zeal = hit.collider.GetComponent<Enemy>();
             weaponController.Currency += zeal.takeDamage(damage);
+            // zeal.BloodEffect();
 
 
         }
